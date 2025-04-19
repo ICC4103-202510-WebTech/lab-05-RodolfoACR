@@ -1,0 +1,18 @@
+<h1>Chats here</h1>
+<h2>Chats List</h2>
+
+<% chats.each do |chat| %>
+    <div>
+        <p><%= link_to "Chat #{chat.id}", chat_path(chat) %></p>
+        <table>
+            <tr>
+                <td>Chat ID:</td>
+                <td><%= chat.sender_id %></td>
+            </tr>
+                <tr>
+                <td>User ID:</td>
+                <td><%= chat.receiver_id %></td>
+        </table>
+        <p>-------------------------------------------------------</p>
+    </div>
+<% end %>

@@ -1,0 +1,23 @@
+<h1>Messages here</h1>
+<h2>Messages List</h2>
+
+<% messages.each do |message| %>
+    <div>
+        <p><%= link_to "Message #{message.id}", message_path(message) %></p>
+        <table>
+            <tr>
+                <td>Chat ID:</td>
+                <td><%= message.chat_id %></td>
+            </tr>
+                <tr>
+                <td>User ID:</td>
+                <td><%= message.user_id %></td>
+            </tr>
+                <tr>
+                <td>Body:</td>
+                <td><%= message.body %></td>
+            </tr>
+        </table>
+        <p>-------------------------------------------------------</p>
+    </div>
+<% end %>
