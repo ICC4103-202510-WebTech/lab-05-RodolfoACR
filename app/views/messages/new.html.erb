@@ -1,0 +1,22 @@
+<h1>Nuevo Mensaje</h1>
+
+<%= form_with model: @message, local: true do |f| %>
+  <%= f.label :chat_id, "Chat" %><br>
+  <%= f.select :chat_id, Chat.all.collect { |c| ["Chat #{c.id}", c.id] }, prompt: "Seleccione un chat" %><br><br>
+
+  <%= f.label :user_id, "Autor" %><br>
+  <%= f.select :user_id, User.all.collect { |u| [u.email, u.id] }, prompt: "Seleccione un autor" %><br><br>
+
+  <%= f.label :body, "Contenido del Mensaje" %><br>
+  <%= f.text_area :body %><br><br>
+
+  <%= f.submit "Enviar Mensaje" %>
+<% end %>
+
+<% if @message.errors.any? %>
+  <ul>
+    <% @message.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>

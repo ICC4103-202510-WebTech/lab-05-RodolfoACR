@@ -1,0 +1,19 @@
+<h1>Nuevo Chat</h1>
+
+<%= form_with model: @chat, local: true do |f| %>
+  <%= f.label :sender_id, "Remitente" %><br>
+  <%= f.select :sender_id, User.all.collect { |u| [u.email, u.id] }, prompt: "Seleccione un remitente" %><br><br>
+
+  <%= f.label :receiver_id, "Destinatario" %><br>
+  <%= f.select :receiver_id, User.all.collect { |u| [u.email, u.id] }, prompt: "Seleccione un destinatario" %><br><br>
+
+  <%= f.submit "Crear Chat" %>
+<% end %>
+
+<% if @chat.errors.any? %>
+  <ul>
+    <% @chat.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>

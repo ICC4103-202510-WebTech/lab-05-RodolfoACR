@@ -11,12 +11,19 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "users#index"
+
   get "/users" => "users#index", as: :users
+  get "/users/new" => "users#new", as: :new_user
+  post "/users" => "users#create"
   get "/users/:id" => "users#show", as: :user
 
   get "/chats" => "chats#index", as: :chats
+  get "/chats/new" => "chats#new", as: :new_chat
+  post "/chats" => "chats#create"
   get "/chats/:id" => "chats#show", as: :chat
 
   get "/messages" => "messages#index", as: :messages
+  get "/messages/new" => "messages#new", as: :new_message
+  post "/messages" => "messages#create"
   get "/messages/:id" => "messages#show", as: :message
 end
