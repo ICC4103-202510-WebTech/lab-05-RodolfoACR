@@ -1,15 +1,16 @@
 class ChatsController < ApplicationController
   def index
-    chats = Chat.all
+    @chats = Chat.all
     respond_to do |format|
-        format.html { render :index, locals: { chats: chats } }
+        format.html { render :index, locals: { chats: @chats } }
     end
   end
 
   def show
-    chat = Chat.find(params[:id])
+    @chat = Chat.find(params[:id])
     respond_to do |format|
-      format.html { render :show, locals: { chat: chat } }
+      format.html { render :show, locals: { chat: @chat } }
+    @messages = Message.where(chat_id: @chat.id)
     end
   end
 
@@ -26,6 +27,18 @@ class ChatsController < ApplicationController
     end
   end
 
+  def edit
+    @chat = Chat.find(params[:id])
+  end
+
+  def update
+    @chat = Chat.find(params[:id])
+    if @chat.update(chat_params)
+      redirect_to chat_path(@chat), notice: "Chat actualizado exitosamente."
+    else
+      render :edit
+    end
+  end
   private
 
   def chat_params

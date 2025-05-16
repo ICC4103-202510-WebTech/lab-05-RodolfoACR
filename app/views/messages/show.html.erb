@@ -1,8 +1,53 @@
-<h1>Message Detail</h1>
-
-<p>ID: <%= message.id %></p>
-<p>Chat ID: <%= message.chat_id %></p>
-<p>User ID: <%= message.user_id %></p>
-<p>Body: <%= message.body %></p>
-
-<%= link_to "Back to Messages List", messages_path %>
+<div class="container">
+    <h1>Message Detail</h1>
+</div>
+<div class="container">
+    <p>ID: <%= message.id %></p>
+    <p>Chat ID: <%= message.chat_id %></p>
+    <p>User ID: <%= message.user_id %></p>
+    <p>Body: <%= message.body %></p>
+</div>
+<div class="container">
+    <p><%= link_to "Edit", edit_message_path(message) %></p>
+    <p><%= link_to "Back to Messages List", messages_path %></p>
+</div>
+<div class="container">
+    <h2>Author</h2>
+    <p>There is the author of this message</p>
+</div>
+<div class="container">
+    <table class="table">
+        <tr>
+            <th scope="col">User ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+        </tr>
+        <tr>
+            <td><%= message.user.id %></td>
+            <td><%= message.user.first_name %> <%= message.user.last_name %></td>
+            <td><%= message.user.email %></td>
+        </tr>
+    </table>
+</div>
+<div class="container">
+    <h2>Chat</h2>
+    <p>There is the chat of this message</p>
+</div>
+<div class="container">
+    <table class="table">
+        <tr>
+            <th scope="col">Chat ID</th>
+            <th scope="col">Sender ID</th>
+            <th scope="col">Sender Name</th>
+            <th scope="col">Receiver ID</th>
+            <th scope="col">Receiver Name</th>
+        </tr>
+        <tr>
+            <td><%= message.chat.id %></td>
+            <td><%= message.chat.sender.id %></td>
+            <td><%= message.chat.sender.first_name %> <%= message.chat.sender.last_name %></td>
+            <td><%= message.chat.receiver.id %></td>
+            <td><%= message.chat.receiver.first_name %> <%= message.chat.receiver.last_name %></td>
+        </tr>
+    </table>
+</div>

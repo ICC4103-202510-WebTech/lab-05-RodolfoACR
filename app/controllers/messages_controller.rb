@@ -1,15 +1,17 @@
 class MessagesController < ApplicationController
   def index
-    messages = Message.all
+    @messages = Message.all
     respond_to do |format|
-        format.html { render :index, locals: { messages: messages } }
+        format.html { render :index, locals: { messages: @messages } }
     end
   end
 
   def show
-    message = Message.find(params[:id])
+    @message = Message.find(params[:id])
     respond_to do |format|
-      format.html { render :show, locals: { message: message } }
+      format.html { render :show, locals: { message: @message } }
+    @user = User.find(@message.user_id)
+    @chat = Chat.find(@message.chat_id)
     end
   end
 
@@ -23,6 +25,19 @@ class MessagesController < ApplicationController
       redirect_to messages_path, notice: "Mensaje enviado correctamente."
     else
       render :new
+    end
+  end
+
+  def edit
+    @message = Message.find(params[:id])
+  end
+
+  def update
+    @message = Message.find(params[:id])
+    if @message.update(message_params)
+      redirect_to message_path(@message), notice: "Mensaje actualizado correctamente."
+    else
+      render :edit
     end
   end
 

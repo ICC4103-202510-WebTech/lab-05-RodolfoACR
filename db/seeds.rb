@@ -27,7 +27,7 @@ end
 10.times do |i|
   Chat.create!(
     sender_id: "Sender#{i}",
-    receiver_id: "Receiver#{i}"
+    receiver_id: "Receiver#{10-i}"
   )
 end
 

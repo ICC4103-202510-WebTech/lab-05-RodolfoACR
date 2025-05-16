@@ -1,4 +1,4 @@
-<h1>New Chat</h1>
+<h1>Edit Chat</h1>
 
 <%= form_with model: @chat, local: true do |f| %>
   <%= f.label :sender_id, "Sender" %><br>
@@ -7,7 +7,7 @@
   <%= f.label :receiver_id, "Receiver" %><br>
   <%= f.select :receiver_id, User.all.collect { |u| [u.email, u.id] }, prompt: "Select a receiver" %><br><br>
 
-  <%= f.submit "Create Chat" %>
+  <%= f.submit "Edit Chat" %>
 <% end %>
 
 <% if @chat.errors.any? %>

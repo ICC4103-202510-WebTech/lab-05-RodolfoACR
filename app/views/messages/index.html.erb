@@ -1,25 +1,31 @@
-<h1>Messages here</h1>
-<h2>Messages List</h2>
-
-<%= link_to "Nuevo Mensaje", new_message_path %>
-
-<% messages.each do |message| %>
-    <div>
-        <p><%= link_to "Message #{message.id}", message_path(message) %></p>
-        <table>
-            <tr>
-                <td>Chat ID:</td>
-                <td><%= message.chat_id %></td>
-            </tr>
-                <tr>
-                <td>User ID:</td>
-                <td><%= message.user_id %></td>
-            </tr>
-                <tr>
-                <td>Body:</td>
-                <td><%= message.body %></td>
-            </tr>
-        </table>
-        <p>-------------------------------------------------------</p>
-    </div>
-<% end %>
+<div class="container">
+    <h1>Messages here</h1>
+    <h2>Messages List</h2>
+    <%= link_to "New Menssage", new_message_path %>
+</div>
+<div class="container">
+    <table class="table">
+        <tr>
+            <td scope="col">ID</td>
+            <td scope="col">Chat ID</td>
+            <td scope="col">User ID</td>
+            <td scope="col">Body</td>
+            <td scope="col">Actions</td>
+        </tr>
+        <% messages = messages.order(:id) %>
+        <% messages.each do |message| %>
+        <tr>
+            <td scope="col"><%= message.id %></td>
+            <td scope="col"><%= message.chat_id %></td>
+            <td scope="col"><%= message.user_id %></td>
+            <td scope="col"><%= message.body %></td>
+            <td scope="col">
+                <p><%= link_to "Show", message_path(message) %></p>
+            </td>
+            <td scope="col">
+                <p><%= link_to "Edit", edit_message_path(message) %></p>
+            </td>
+        </tr>
+        <% end %>
+    </table>
+</div>

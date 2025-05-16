@@ -15,15 +15,24 @@ Rails.application.routes.draw do
   get "/users" => "users#index", as: :users
   get "/users/new" => "users#new", as: :new_user
   post "/users" => "users#create"
+  get "/users/:id/edit" => "users#edit", as: :edit_user
+  patch "/users/:id" => "users#update"
+  put "/users/:id" => "users#update"
   get "/users/:id" => "users#show", as: :user
 
   get "/chats" => "chats#index", as: :chats
   get "/chats/new" => "chats#new", as: :new_chat
   post "/chats" => "chats#create"
+  get "/chats/:id/edit" => "chats#edit", as: :edit_chat
+  patch "/chats/:id" => "chats#update"
+  put "/chats/:id" => "chats#update"
   get "/chats/:id" => "chats#show", as: :chat
 
   get "/messages" => "messages#index", as: :messages
   get "/messages/new" => "messages#new", as: :new_message
   post "/messages" => "messages#create"
+  get "/messages/:id/edit" => "messages#edit", as: :edit_message
+  patch "/messages/:id" => "messages#update"
+  put "/messages/:id" => "messages#update"
   get "/messages/:id" => "messages#show", as: :message
 end

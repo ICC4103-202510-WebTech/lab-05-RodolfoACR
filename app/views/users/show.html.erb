@@ -1,8 +1,68 @@
-<h1>User Detail</h1>
+<div class="container">
+    <h1>User Detail</h1>
+</div>
+<div class="container">
+    <p>ID: <%= user.id %></p>
+    <p>First Name: <%= user.first_name %></p>
+    <p>Last Name: <%= user.last_name %></p>
+    <p>Email: <%= user.email %></p>
+</div>
+<div class="container">
+    <p><%= link_to "Edit", edit_user_path(user) %></p>
+    <p><%= link_to "Back to Users List", users_path %></p>
+</div>
+<div class="container">
+    <h2>Chats List</h2>
+    <p>There are the chats of this user</p>
+</div>
+<div class="container">
+    <table class="table">
+        <tr>
+            <th scope="col">Chat ID</th>
+            <th scope="col">Sender ID</th>
+            <th scope="col">Sender email</th>
+            <th scope="col">Receiver ID</th>
+            <th scope="col">Receiver email</th>
+            <th scope="col">Show</th>
+        </tr>
+        <% @chats.each do |chat| %>
+        <tr>
+            <td><%= chat.id %></td>
+            <td><%= chat.sender.id %></td>
+            <td><%= chat.sender.email %></td>
+            <td><%= chat.receiver.id %></td>
+            <td><%= chat.receiver.email %></td>
+            <td>
+                <%= link_to "Show", chat_path(chat) %>
+            </td>
+        </tr>
+        <% end %>
+    </table>
+</div>
+<div class="container">
+    <h2>Messages List</h2>
+    <p>There are the messages of this user</p>
+</div>
+<div class="container">
+    <table class="table">
+        <tr>
+            <th scope="col">Message ID</th>
+            <th scope="col">Chat ID</th>
+            <th scope="col">User ID</th>
+            <th scope="col">Body</th>
+            <th scope="col">Show</th>
+        </tr>
+        <% @messages.each do |message| %>
+        <tr>
+            <td><%= message.id %></td>
+            <td><%= message.chat_id %></td>
+            <td><%= message.user_id %></td>
+            <td><%= message.body %></td>
+            <td>
+                <%= link_to "Show", message_path(message) %>
+            </td>
+        </tr>
+        <% end %>
+    </table>
+</div>
 
-<p>ID: <%= user.id %></p>
-<p>First Name: <%= user.first_name %></p>
-<p>Last Name: <%= user.last_name %></p>
-<p>Email: <%= user.email %></p>
-
-<%= link_to "Back to Users List", users_path %>
