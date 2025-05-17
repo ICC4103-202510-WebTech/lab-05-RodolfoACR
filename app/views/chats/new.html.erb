@@ -1,19 +1,31 @@
-<h1>New Chat</h1>
+<div class="container">
+  <h1>New Chat</h1>
+</div>
+<div class="container">
+  <% if @chat.errors.any? %>
+    <div class="alert alert-danger">
+      <h3><%= pluralize(@chat.errors.count, "error") %> found:</h3>
+      <ul>
+        <% @chat.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>
+<div class="container">
+  <%= form_with model: @chat, local: true do |f| %>
+    <div class="form-group">
+      <%= f.label :sender_id, "Sender" %>
+      <%= f.select :sender_id, User.all.collect { |u| [u.email, u.id] }, class: "form-control" %>
+    </div>
 
-<%= form_with model: @chat, local: true do |f| %>
-  <%= f.label :sender_id, "Sender" %><br>
-  <%= f.select :sender_id, User.all.collect { |u| [u.email, u.id] }, prompt: "Select a sender" %><br><br>
+    <div class="form-group">
+      <%= f.label :receiver_id, "Receiver" %>
+      <%= f.select :receiver_id, User.all.collect { |u| [u.email, u.id] }, class: "form-control" %>
+    </div>
 
-  <%= f.label :receiver_id, "Receiver" %><br>
-  <%= f.select :receiver_id, User.all.collect { |u| [u.email, u.id] }, prompt: "Select a receiver" %><br><br>
-
-  <%= f.submit "Create Chat" %>
-<% end %>
-
-<% if @chat.errors.any? %>
-  <ul>
-    <% @chat.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <% end %>
-  </ul>
-<% end %>
+    <%= f.submit "Create Chat", class: "btn btn-primary" %>
+  <% end %>
+  <p><%= link_to "Back to Chats List", chats_path %></p>
+</div>

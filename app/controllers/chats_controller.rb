@@ -21,7 +21,7 @@ class ChatsController < ApplicationController
   def create
     @chat = Chat.new(chat_params)
     if @chat.save
-      redirect_to chats_path, notice: "Chat creado exitosamente."
+      redirect_to chats_path, notice: "Chat created successfully."
     else
       render :new
     end
@@ -34,7 +34,7 @@ class ChatsController < ApplicationController
   def update
     @chat = Chat.find(params[:id])
     if @chat.update(chat_params)
-      redirect_to chat_path(@chat), notice: "Chat actualizado exitosamente."
+      redirect_to chat_path(@chat), notice: "Chat updated successfully."
     else
       render :edit
     end

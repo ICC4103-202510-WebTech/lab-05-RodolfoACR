@@ -22,7 +22,7 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new(message_params)
     if @message.save
-      redirect_to messages_path, notice: "Mensaje enviado correctamente."
+      redirect_to messages_path, notice: "Message sended successfully."
     else
       render :new
     end
@@ -35,7 +35,7 @@ class MessagesController < ApplicationController
   def update
     @message = Message.find(params[:id])
     if @message.update(message_params)
-      redirect_to message_path(@message), notice: "Mensaje actualizado correctamente."
+      redirect_to message_path(@message), notice: "Messagge updated successfully."
     else
       render :edit
     end

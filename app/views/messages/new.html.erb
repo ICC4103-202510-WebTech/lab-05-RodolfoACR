@@ -1,22 +1,36 @@
-<h1>New Message</h1>
+<div class="container">
+  <h1>New Message</h1>
+</div>
+<div class="container">
+  <% if @message.errors.any? %>
+    <div class="alert alert-danger">
+      <h3><%= pluralize(@message.errors.count, "error") %> found:</h3>
+      <ul>
+        <% @message.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>
+<div class="container">
+  <%= form_with model: @message, local: true do |f| %>
+    <div class="form-group">
+      <%= f.label :chat_id, "Chat" %>
+      <%= f.select :chat_id, Chat.all.collect { |c| ["Chat #{c.id}", c.id] }, class: "form-control" %>
+    </div>
 
-<%= form_with model: @message, local: true do |f| %>
-  <%= f.label :chat_id, "Chat" %><br>
-  <%= f.select :chat_id, Chat.all.collect { |c| ["Chat #{c.id}", c.id] }, prompt: "Select a Chat" %><br><br>
+    <div class="form-group">
+      <%= f.label :user_id, "Author" %>
+      <%= f.select :user_id, User.all.collect { |u| [u.email, u.id] }, class: "form-control" %>
+    </div>
 
-  <%= f.label :user_id, "Author" %><br>
-  <%= f.select :user_id, User.all.collect { |u| [u.email, u.id] }, prompt: "Select an author" %><br><br>
+    <div class="form-group">
+      <%= f.label :body, "Message Body" %>
+      <%= f.text_area :body, class: "form-control" %>
+    </div>
 
-  <%= f.label :body, "Mesagge Content" %><br>
-  <%= f.text_area :body %><br><br>
-
-  <%= f.submit "Send Message" %>
-<% end %>
-
-<% if @message.errors.any? %>
-  <ul>
-    <% @message.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <% end %>
-  </ul>
-<% end %>
+    <%= f.submit "Send Message", class: "btn btn-primary" %>
+  <% end %>
+  <p><%= link_to "Back to Messages List", messages_path %></p>
+</div>
