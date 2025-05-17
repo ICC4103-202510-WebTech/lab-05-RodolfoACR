@@ -10,6 +10,7 @@
             <td scope="col">First Name</td>
             <td scope="col">Last Name</td>
             <td scope="col">Email</td>
+            <td scope="col">Messages Sent</td>
             <td scope="col">Actions</td>
         </tr>
         <% @users = @users.order(:id) %>
@@ -19,6 +20,9 @@
             <td scope="col"><%= user.first_name %></td>
             <td scope="col"><%= user.last_name %></td>
             <td scope="col"><%= user.email %></td>
+            <td scope="col">
+                <p><%= user.messages.count %></p>
+            </td>
             <td scope="col">
                 <p><%= link_to "Show", user_path(user) %></p>
             </td>
