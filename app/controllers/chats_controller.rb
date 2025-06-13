@@ -1,4 +1,15 @@
 class ChatsController < ApplicationController
+  before_action :authenticate_user!
+  skip_before_action :verify_authenticity_token, only: [:index, :show]
+
+  load_and_authorize_resource
+
+  def authenticate_user!
+    unless current_user
+      redirect_to new_user_session_path, alert: "You must be logged in to access this section."
+    end
+  end
+
   def index
     @chats = Chat.all
     respond_to do |format|

@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers: {
+  registrations: "users/registrations"
+}
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -10,7 +14,9 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  root "users#index"
+  root "home#index"
+
+  get "/home" => "home#index", as: :home
 
   get "/users" => "users#index", as: :users
   get "/users/new" => "users#new", as: :new_user
@@ -35,4 +41,6 @@ Rails.application.routes.draw do
   patch "/messages/:id" => "messages#update"
   put "/messages/:id" => "messages#update"
   get "/messages/:id" => "messages#show", as: :message
+
+  
 end

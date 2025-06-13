@@ -1,16 +1,32 @@
-<h1>Edit User</h1>
-<h3>User <%= @user.id %></h3>
-<p><%= link_to "Back to Users", users_path %></p>
+<div class="container">
+  <h1>Editar perfil</h1>
 
-<%= form_with model: @user, local: true do |f| %>
-  <%= f.label :first_name %>
-  <%= f.text_field :first_name %><br>
+  <%= form_with model: @user, local: true do |f| %>
+    <div class="field">
+      <%= f.label :first_name %>
+      <%= f.text_field :first_name %>
+    </div>
 
-  <%= f.label :last_name %>
-  <%= f.text_field :last_name %><br>
+    <div class="field">
+      <%= f.label :last_name %>
+      <%= f.text_field :last_name %>
+    </div>
 
-  <%= f.label :email %>
-  <%= f.email_field :email %><br>
+    <div class="field">
+      <%= f.label :email %>
+      <%= f.email_field :email %>
+    </div>
 
-  <%= f.submit "Edit User" %>
-<% end %>
+    <% if current_user.admin? %>
+      <div class="field">
+        <%= f.label :role %>
+        <%= f.select :role, User::ROLES %>
+      </div>
+    <% end %>
+
+    <div class="actions">
+      <%= f.submit "Guardar cambios" %>
+    </div>
+  <% end %>
+
+</div>

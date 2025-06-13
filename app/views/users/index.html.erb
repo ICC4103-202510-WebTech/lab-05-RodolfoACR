@@ -26,9 +26,11 @@
             <td scope="col">
                 <p><%= link_to "Show", user_path(user) %></p>
             </td>
-            <td scope="col">
-                <p><%= link_to "Edit", edit_user_path(user) %></p>
-            </td>
+            <% if can? :edit, user %>
+                <td scope="col">
+                    <p><%= link_to "Edit", edit_user_path(user) %></p>
+                </td>
+            <% end %>
         </tr>
         <% end %>
     </table>

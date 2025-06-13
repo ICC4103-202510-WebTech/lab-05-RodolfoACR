@@ -23,7 +23,9 @@
                 <p><%= link_to "Show", message_path(message) %></p>
             </td>
             <td scope="col">
-                <p><%= link_to "Edit", edit_message_path(message) %></p>
+                <% if can? :edit, @message %>
+                    <%= link_to "Edit", edit_message_path(@message) %>
+                <% end %>
             </td>
         </tr>
         <% end %>

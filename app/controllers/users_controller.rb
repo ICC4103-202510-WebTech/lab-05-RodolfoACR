@@ -1,4 +1,15 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!
+  skip_before_action :verify_authenticity_token, only: [:index, :show]
+
+  load_and_authorize_resource
+
+  def authenticate_user!
+    unless current_user
+      redirect_to new_user_session_path, alert: "You must be logged in to access this section."
+    end
+  end
+
   def index
     @users = User.all
     respond_to do |format|
@@ -47,6 +58,11 @@ class UsersController < ApplicationController
   private
   
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email)
+    if current_user.admin?
+      params.require(:user).permit(:first_name, :last_name, :email, :role)
+    else
+      params.require(:user).permit(:first_name, :last_name, :email)
+    end
   end
+
 end
