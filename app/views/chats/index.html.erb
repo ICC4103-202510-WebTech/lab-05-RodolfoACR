@@ -20,9 +20,11 @@
             <td scope="col">
             <p><%= link_to "Show", chat_path(chat) %></p>
             </td>
-            <td scope="col">
-                <p><%= link_to "Edit", edit_chat_path(chat) %></p>
-            </td>
+            <% if current_user.admin? %>    
+                <td scope="col">
+                    <p><%= link_to "Edit", edit_chat_path(chat) %></p>
+                </td>
+            <% end %>
         </tr>
         <% end %>
     </table>

@@ -26,6 +26,7 @@ class ChatsController < ApplicationController
 
   def show
     @chat = Chat.find(params[:id])
+    authorize! :read, @chat
     respond_to do |format|
       format.html { render :show, locals: { chat: @chat } }
     @messages = Message.where(chat_id: @chat.id)
@@ -37,11 +38,22 @@ class ChatsController < ApplicationController
   end
 
   def create
-    @chat = Chat.new(chat_params)
-    if @chat.save
-      redirect_to chats_path, notice: "Chat created successfully."
+    authorize! :create, Chat
+    if current_user.admin?
+      @chat = Chat.new(chat_params)
+      if @chat.save
+        redirect_to chats_path, notice: "Chat created successfully."
+      else
+        render :new
+      end
     else
-      render :new
+      @chat = Chat.new(chat_params)
+      @chat.sender_id = current_user.id
+      if @chat.save
+        redirect_to chats_path, notice: "Chat created successfully."
+      else
+        render :new
+      end
     end
   end
 
@@ -57,9 +69,14 @@ class ChatsController < ApplicationController
       render :edit
     end
   end
+  
   private
 
   def chat_params
-    params.require(:chat).permit(:sender_id, :receiver_id)
+    if current_user.admin?
+      params.require(:chat).permit(:sender_id, :receiver_id)
+    else
+      params.require(:chat).permit(:receiver_id)
+    end
   end
 end

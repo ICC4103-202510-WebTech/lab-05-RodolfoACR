@@ -8,36 +8,43 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-User.delete_all
-Chat.delete_all
 Message.delete_all
+Chat.delete_all
+User.delete_all
 
-ActiveRecord::Base.connection.reset_pk_sequence!('users')
-ActiveRecord::Base.connection.reset_pk_sequence!('chats')
 ActiveRecord::Base.connection.reset_pk_sequence!('messages')
+ActiveRecord::Base.connection.reset_pk_sequence!('chats')
+ActiveRecord::Base.connection.reset_pk_sequence!('users')
 
-10.times do |i|
+# Crear usuarios
+users = 10.times.map do |i|
   User.create!(
     email: "user#{i}@miuandes.cl",
     first_name: "User#{i}",
     last_name: "Test#{i}",
     password: "AAAAAA",
     password_confirmation: "AAAAAA",
-    role: i == 0 ? "admin" : "user"  # First user is admin, others are regular users
+    role: i == 0 ? "admin" : "user"
   )
 end
 
-10.times do |i|
-  Chat.create!(
-    sender_id: "Sender#{i}",
-    receiver_id: "Receiver#{10-i}"
+# Crear chats (entre pares distintos)
+chats = []
+users.each_with_index do |sender, i|
+  receiver = users[9 - i]
+  next if sender == receiver
+
+  chats << Chat.create!(
+    sender_id: sender.id,
+    receiver_id: receiver.id
   )
 end
 
-10.times do |i|
+# Crear mensajes
+chats.each_with_index do |chat, i|
   Message.create!(
-    chat_id: i,
-    user_id: i,
-    body: "This is the #{i}rd test message"
+    chat_id: chat.id,
+    user_id: chat.sender_id,
+    body: "Mensaje de prueba número #{i + 1}"
   )
 end

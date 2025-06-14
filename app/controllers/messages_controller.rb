@@ -11,9 +11,16 @@ class MessagesController < ApplicationController
   end
 
   def index
-    @messages = Message.all
-    respond_to do |format|
-        format.html { render :index, locals: { messages: @messages } }
+    if current_user.admin?
+      @messages = Message.all
+      respond_to do |format|
+          format.html { render :index, locals: { messages: @messages } }
+      end
+    else
+      @messages = Message.involving(current_user)
+      respond_to do |format|
+          format.html { render :index, locals: { messages: @messages } }
+      end
     end
   end
 
@@ -55,6 +62,10 @@ class MessagesController < ApplicationController
   private
 
   def message_params
-    params.require(:message).permit(:chat_id, :user_id, :body)
+    if current_user.admin?
+      params.require(:message).permit(:chat_id, :user_id, :body)
+    else
+      params.require(:message).permit(:chat_id, :body).merge(user_id: current_user.id)
+    end
   end
 end

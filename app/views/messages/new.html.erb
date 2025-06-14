@@ -15,15 +15,24 @@
 </div>
 <div class="container">
   <%= form_with model: @message, local: true do |f| %>
-    <div class="form-group">
-      <%= f.label :chat_id, "Chat" %>
-      <%= f.select :chat_id, Chat.all.collect { |c| ["Chat #{c.id}", c.id] }, class: "form-control" %>
-    </div>
+    <% if current_user.admin? %>
+      <div class="form-group">
+        <%= f.label :chat_id, "Chat" %>
+        <%= f.select :chat_id, Chat.all.collect { |c| ["Chat #{c.id}", c.id] }, class: "form-control" %>
+      </div>
 
-    <div class="form-group">
-      <%= f.label :user_id, "Author" %>
-      <%= f.select :user_id, User.all.collect { |u| [u.email, u.id] }, class: "form-control" %>
-    </div>
+      <div class="form-group">
+        <%= f.label :user_id, "Author" %>
+        <%= f.select :user_id, [], {}, class: "form-control", id: "user_select" %>
+      </div>
+
+    <% else %>
+      <%= f.hidden_field :user_id, value: current_user.id %>
+      <div class="form-group">
+        <label class="form-label">Author</label>
+        <input type="text" value="<%= current_user.email %>" disabled>
+      </div>
+    <% end %>
 
     <div class="form-group">
       <%= f.label :body, "Message Body" %>
@@ -34,3 +43,32 @@
   <% end %>
   <p><%= link_to "Back to Messages List", messages_path %></p>
 </div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const chatSelect = document.getElementById("chat_select");
+    const userSelect = document.getElementById("user_select");
+
+    if (!chatSelect || !userSelect) return;
+
+    const usersByChat = JSON.parse(chatSelect.dataset.users);
+
+    chatSelect.addEventListener("change", function () {
+      const chatId = chatSelect.value;
+      const users = usersByChat[chatId] || [];
+
+      // Limpiar y poblar userSelect
+      userSelect.innerHTML = "";
+      users.forEach(user => {
+        const option = document.createElement("option");
+        option.value = user.id;
+        option.textContent = user.email;
+        userSelect.appendChild(option);
+      });
+    });
+
+    // trigger initial load if value is preset
+    if (chatSelect.value) {
+      chatSelect.dispatchEvent(new Event("change"));
+    }
+  });
+</script>

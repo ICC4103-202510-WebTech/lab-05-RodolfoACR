@@ -15,15 +15,23 @@
 </div>
 <div class="container">
   <%= form_with model: @chat, local: true do |f| %>
-    <div class="form-group">
-      <%= f.label :sender_id, "Sender" %>
-      <%= f.select :sender_id, User.all.collect { |u| [u.email, u.id] }, class: "form-control" %>
-    </div>
+    <% if current_user.admin? %>
+      <div class="form-group">
+        <%= f.label :sender_id, "Sender" %>
+        <%= f.select :sender_id, User.all.collect { |u| [u.email, u.id] }, class: "form-control" %>
+      </div>
+    <% else %>
+      <%= f.hidden_field :sender_id, value: current_user.id %>
+      <label class="form-label">Sender</label>
+      <input type="text" placeholder=<%= current_user.email %> aria-label="Disabled input example" disabled>
+      <%= f.hidden_field :sender_id, value: current_user.id %>
+    <% end %>
 
     <div class="form-group">
       <%= f.label :receiver_id, "Receiver" %>
-      <%= f.select :receiver_id, User.all.collect { |u| [u.email, u.id] }, class: "form-control" %>
+      <%= f.collection_select :receiver_id, User.where.not(id: current_user.id), :id, :email %>
     </div>
+    <br>
 
     <%= f.submit "Create Chat", class: "btn btn-primary" %>
   <% end %>

@@ -11,11 +11,16 @@ class Chat < ApplicationRecord
     where("sender_id = ? OR receiver_id = ?", user.id, user.id)
   }
   
+  def users
+    [sender, receiver]
+  end
+  
   private
 
   def different_users
     errors.add(:receiver_id, "must be different from sender") if sender_id == receiver_id
   end
+
 end
 
 
