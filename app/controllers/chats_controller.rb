@@ -11,9 +11,16 @@ class ChatsController < ApplicationController
   end
 
   def index
-    @chats = Chat.all
-    respond_to do |format|
-        format.html { render :index, locals: { chats: @chats } }
+    if current_user.admin?
+      @chats = Chat.all
+      respond_to do |format|
+          format.html { render :index, locals: { chats: @chats } }
+      end
+    else
+      @chats = Chat.involving(current_user)
+      respond_to do |format|
+          format.html { render :index, locals: { chats: @chats } }
+      end
     end
   end
 

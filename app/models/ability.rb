@@ -34,9 +34,14 @@ class Ability
     if user.admin?
       can :manage, :all
     else
-      can :read, :all
-      can :create, Message
-      can [:update, :destroy], Message, user_id: user.id
+      can :read, Chat do |chat|
+        chat.sender_id == user.id || chat.receiver_id == user.id
+      end
+      can [:read, :update, :create], Message, user_id: user.id
+      can :read, Message do |message|
+        chat = message.chat
+        chat.sender_id == user.id || chat.receiver_id == user.id
+      end
     end
   end
 end

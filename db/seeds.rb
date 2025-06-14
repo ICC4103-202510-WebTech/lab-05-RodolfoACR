@@ -20,7 +20,10 @@ ActiveRecord::Base.connection.reset_pk_sequence!('messages')
   User.create!(
     email: "user#{i}@miuandes.cl",
     first_name: "User#{i}",
-    last_name: "Test#{i}"
+    last_name: "Test#{i}",
+    password: "AAAAAA",
+    password_confirmation: "AAAAAA",
+    role: i == 0 ? "admin" : "user"  # First user is admin, others are regular users
   )
 end
 
